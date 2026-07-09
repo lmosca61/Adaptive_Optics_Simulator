@@ -55,20 +55,31 @@ The script outputs console metrics and a series of dynamic plots demonstrating t
 Throughout the execution, multiple plots are shown regarding the 3D Wavefront Surfaces, the Step Response of the control channels, and Logarithmic Maps of the Point Spread Function.
 
 ## Simulation results
-Step response MIMO system
+### Step response
  ![Step response](images/step_compared_mimo.png)
-Before corrections:
-* 2D representation via Zernike modes:
-  ![2D Deformation](images/def2d.png)
-* 3D representation via Zernike modes:
-  ![3D Deformation](images/def3d.png)
-* PSF:
-  ![PSF Deformation](images/defpsf.png)
 
-After corrections:
-* 2D representation via Zernike modes:
-  ![2D Corrected](images/ok2d.png)
-* 3D representation via Zernike modes:
-  ![3D Corrected](images/ok3d.png)
-* PSF:
-  ![PSF Corrected](images/okpsf.png)
+The following images demonstrate the system's ability to correct severe wavefront aberrations. The comparisons show the initial wind-driven turbulence (left) and the restored optical quality after the MIMO control loop stabilizes (right).
+
+### 2D Zernike Wavefront Maps
+<p align="center">
+  <img src="images/def2d.png" width="45%" alt="2D Deformation Before">
+  <img src="images/ok2d.png" width="45%" alt="2D Corrected After">
+  <br>
+  <em>Left: Uncorrected Wavefront (Severe Deformation) — Right: Flattened Wavefront Post-Correction</em>
+</p>
+
+### 3D Zernike Surfaces
+<p align="center">
+  <img src="images/def3d.png" width="45%" alt="3D Deformation Before">
+  <img src="images/ok3d.png" width="45%" alt="3D Corrected After">
+  <br>
+  <em>Left: 3D Surface Before Correction — Right: Stabilized 3D Surface Post-Correction</em>
+</p>
+
+### Point Spread Function (PSF)
+<p align="center">
+  <img src="images/defpsf.png" width="45%" alt="PSF Before">
+  <img src="images/okpsf.png" width="45%" alt="PSF After">
+  <br>
+  <em>Left: Aberrated PSF (Energy Scattered) — Right: Restored Diffraction-Limited PSF</em>
+</p>
