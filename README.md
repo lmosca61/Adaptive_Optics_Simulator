@@ -57,15 +57,16 @@ Throughout the execution, multiple plots are shown regarding the 3D Wavefront Su
 ## Simulation results
 Before corrections:
 * 2D representation via Zernike modes:
+  ![2D Deformation](images/def2d.png)
 * 3D representation via Zernike modes:
+  ![3D Deformation](images/def3d.png)
 * PSF:
+  ![PSF Deformation](images/defpsf.png)
 
 After corrections:
 * 2D representation via Zernike modes:
+  ![2D Corrected](images/ok2d.png)
 * 3D representation via Zernike modes:
+  ![3D Corrected](images/ok3d.png)
 * PSF:
-
-![Step Response of the MIMO Control Channels](images/step_response.png)
-![Atmospheric Input Evolution over Time](images/inputs_evolution.png)
-![3D Wavefront Before Correction](images/zernike_3d_before.png)
-![PSF After MIMO Correction](images/psf_after.png)
+  ![PSF Corrected](images/okpsf.png)
