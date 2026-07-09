@@ -55,6 +55,16 @@ The script outputs console metrics and a series of dynamic plots demonstrating t
 Throughout the execution, multiple plots are shown regarding the 3D Wavefront Surfaces, the Step Response of the control channels, and Logarithmic Maps of the Point Spread Function.
 
 ## Simulation results
+Before corrections:
+* 2D representation via Zernike modes:
+* 3D representation via Zernike modes:
+* PSF:
+
+After corrections:
+* 2D representation via Zernike modes:
+* 3D representation via Zernike modes:
+* PSF:
+
 ![Step Response of the MIMO Control Channels](images/step_response.png)
 ![Atmospheric Input Evolution over Time](images/inputs_evolution.png)
 ![3D Wavefront Before Correction](images/zernike_3d_before.png)
