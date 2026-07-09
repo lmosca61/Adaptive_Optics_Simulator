@@ -1,94 +1,61 @@
-# Adaptive Optics & Wavefront Control Simulator
+# Adaptive Optics Simulator: Wavefront Control & Correction
 
-[![Python 3.x](https://img.shields.io/badge/Python-3.x-brightgreen.svg)](https://www.python.org/)
+This project uses dynamic mathematical modeling and the Python `control` library to simulate optical wavefront aberrations and actively correct them through a discrete MIMO (Multiple-Input Multiple-Output) feedback system. By extracting Zernike polynomials and simulating wind-driven atmospheric turbulence, the model analyzes optical degradation and generates a realistic active correction response.
 
-## Table of Contents
-* [About the Project](#about-the-project)
-* [System Architecture](#system-architecture)
-* [Simulation Results](#simulation-results)
-  * [1. System Dynamics & Step Response](#1-system-dynamics--step-response)
-  * [2. Wind-Driven Atmospheric Inputs](#2-wind-driven-atmospheric-inputs)
-  * [3. Pre-Correction Wavefront & PSF](#3-pre-correction-wavefront--psf)
-  * [4. MIMO Control Response](#4-mimo-control-response)
-  * [5. Post-Correction Wavefront & Final Residuals](#5-post-correction-wavefront--final-residuals)
-* [Mathematical Background](#mathematical-background)
-* [Installation & Usage](#installation--usage)
+## Project Overview 
 
----
+This project goes beyond static optical modeling by calculating advanced dynamic metrics like **atmospheric turbulence decay** and **dynamic residual errors** over a 1000-step time series. It combines these with a Singular Value Decomposition (SVD) matrix to tune a discrete-time control loop, predicting the final stabilized wavefront. Since the system simulates a continuous feedback loop, it constantly minimizes the wavefront error to maximize the optical Strehl Ratio.
 
-## About the Project
+The core of the project is a **Discrete MIMO Feedback Controller**, designed with custom transfer functions to handle the 14 fundamental Zernike modes simultaneously.
 
-This repository provides a comprehensive Python framework for simulating optical wavefront aberrations and correcting them through a discrete MIMO (Multiple-Input Multiple-Output) control system. It is designed for researchers and engineers working in **Adaptive Optics (AO)** for ground-based telescopes or laser communications.
+## The project's steps
 
-The simulator models dynamic, time-varying atmospheric turbulence driven by physical parameters (e.g., wind speed, mirror diameter) and actively corrects these aberrations using a simulated feedback loop. The optical performance is continuously evaluated using Point Spread Function (PSF) and Strehl Ratio metrics.
+The project is broken down into several logical steps:
 
----
+* **Data Initialization:** Extracting the 2D pupil grid and generating the base Zernike polynomial modes (Z_n^m) using mathematical factorials and polar coordinates.
+* **Feature Engineering:**
+  * `Atmospheric_Turbulence`: Calculated by applying an exponential decay based on simulated wind speed (10 m/s), mirror diameter (2m), and the radial order of the specific modes, combined with uniform random noise.
+  * `Complex_Pupil & PSF`: The generation of the Point Spread Function using Fast Fourier Transforms (`np.fft.fft2`) to evaluate focal energy distribution.
+  * `SISO_Optimization`: A pre-tuned controller scalar (`mu`) applied to custom transfer functions representing the system's sensor and actuator delays.
+  * `MIMO_Cross-Coupling`: An SVD transformation applied to an interaction matrix to decouple the system, allowing independent channel tracking.
+* **Dynamic Simulation:** The script dynamically subjects the MIMO system to the generated noisy atmospheric inputs, calculating the forced response (`y(k)`) over time.
+* **Correction & Evaluation:** The final residual coefficients are calculated by subtracting the system output from the input disturbances. The final finishing optical quality is represented by the post-correction Strehl Ratio.
 
-## System Architecture
+## Technologies Used
 
-The simulation is built on two primary pillars:
+* **Python 3.x**
+* **NumPy:** For complex matrix manipulation, Singular Value Decomposition (SVD), and Fast Fourier Transforms (FFT).
+* **Control:** The Python control systems library used to append transfer functions and compute step/forced responses for the dynamic models.
+* **Matplotlib:** For rendering 2D/3D surface plots, logarithmic PSF maps, and time-series data visualization.
 
-1. **Optical Simulator (`zernike.py`):** Generates Zernike polynomials over a unit circular pupil to model wavefront deformations. It computes the complex pupil function and applies Fast Fourier Transforms (FFT) to generate the resulting Point Spread Function (PSF).
-2. **Discrete Control Loop (`main.py`):** Implements a discrete-time MIMO feedback controller using the `control` library. The control system is designed to track and minimize time-varying Zernike coefficients, factoring in system delays, sensor noise, and cross-coupling effects modeled via Singular Value Decomposition (SVD).
+## Installation and Usage
 
----
+To run the script locally, make sure you have the necessary libraries installed.
 
-## Simulation Results
+1. Clone the repository.
+2. Install the required packages via terminal:
+```bash
+pip install numpy matplotlib control
+```
 
-> **Note:** *The images below showcase the outputs generated by the simulation. Run the script to generate these plots dynamically. Add your generated `.png` files to an `images/` folder in your repository to display them here.*
+3. Run the script. *Note: The simulation calculates complex FFTs and matrix operations over 1000 time steps, which may take a few moments to render the final sequence of plots.*
+```bash
+python main.py
+```
 
-### 1. System Dynamics & Step Response
-Before running the full simulation, the controller's stability and response time are evaluated. The step response for the independent MIMO channels ensures optimal tuning (SISO optimization) with minimal overshoot.
-![Step Response](images/step_response.png) 
-*Figure 1: Step response of the tuned control channels.*
+## Expected Output
 
-### 2. Wind-Driven Atmospheric Inputs
-The system simulates dynamic atmospheric turbulence based on a 10 m/s wind speed and a 2-meter aperture diameter. The input coefficients naturally decay and vary over time with added uniform noise.
-![Atmospheric Inputs](images/inputs_evolution.png) 
-*Figure 2: Time evolution of 3 selected input channels simulating atmospheric disturbances.*
+The script outputs console metrics and a series of dynamic plots demonstrating the system's performance:
 
-### 3. Pre-Correction Wavefront & PSF
-The initial, uncorrected aberrations are calculated and visualized. The system computes the baseline Strehl Ratio to establish the pre-correction optical quality.
-<p align="center">
-  <img src="images/zernike_3d_before.png" width="45%" title="3D Wavefront Before">
-  <img src="images/psf_before.png" width="45%" title="PSF Before">
-</p>
-*Figure 3: Left - Uncorrected 3D Zernike Wavefront. Right - Logarithmic map of the severely aberrated PSF.*
+* Strehl Ratio before and after correction.
+* Final Predicted Residual Coefficients (phi_res).
+* Time evolution of the tracking inputs and the system outputs.
+* Raw predicted response arrays (the exact float values generated by the MIMO simulation).
 
-### 4. MIMO Control Response
-The core of the simulation. The discrete MIMO system applies continuous feedback to track the time-varying Zernike coefficients over 1000 discrete steps, effectively rejecting the simulated turbulence.
-![MIMO Response](images/mimo_forced_response.png) 
-*Figure 4: Forced response y(k) of the discrete MIMO system tracking the 14 Zernike modes.*
+Throughout the execution, multiple plots are shown regarding the 3D Wavefront Surfaces, the Step Response of the control channels, and Logarithmic Maps of the Point Spread Function.
 
-### 5. Post-Correction Wavefront & Final Residuals
-After the control loop stabilizes the wavefront, the system generates the corrected Zernike surfaces and the final PSF. The residual coefficients (phi_res) are plotted to demonstrate the convergence to zero.
-<p align="center">
-  <img src="images/zernike_3d_after.png" width="45%" title="3D Wavefront After">
-  <img src="images/psf_after.png" width="45%" title="PSF After">
-</p>
-*Figure 5: Left - Flattened 3D Wavefront post-correction. Right - Restored, diffraction-limited PSF.*
-
-![Residuals](images/residual_coefficients.png) 
-*Figure 6: Time evolution of the residual Zernike coefficients (phi_res), showing the effective minimization of the wavefront error.*
-
----
-
-## Mathematical Background
-
-* **Wavefront Representation:** Aberrations are decomposed into a weighted sum of Zernike polynomials Z_n^m(rho, theta).
-* **Atmospheric Dynamics:** Modeled using an exponential decay function based on the Taylor frozen-flow hypothesis, incorporating radial order, wind speed, and aperture diameter.
-* **Optical Metrics:** Image quality is quantified using the **Strehl Ratio**, defined as the ratio of the peak focal intensity of the aberrated PSF to the peak intensity of an ideal, diffraction-limited PSF.
-
----
-
-## Installation & Usage
-
-1. Clone the repository and install dependencies:
-   ```bash
-   git clone [https://github.com/lmosca61/Adaptive_Optics_Simulator.git](https://github.com/lmosca61/Adaptive_Optics_Simulator.git)
-   cd Adaptive_Optics_Simulator
-   pip install numpy matplotlib control 
-
-2. Run the main simulation to generate the plots automatically:
-   ```bash
-   python main.py
+## Simulation results
+![Step Response of the MIMO Control Channels](images/step_response.png)
+![Atmospheric Input Evolution over Time](images/inputs_evolution.png)
+![3D Wavefront Before Correction](images/zernike_3d_before.png)
+![PSF After MIMO Correction](images/psf_after.png)
