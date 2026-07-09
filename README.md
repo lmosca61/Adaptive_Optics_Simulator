@@ -55,6 +55,8 @@ The script outputs console metrics and a series of dynamic plots demonstrating t
 Throughout the execution, multiple plots are shown regarding the 3D Wavefront Surfaces, the Step Response of the control channels, and Logarithmic Maps of the Point Spread Function.
 
 ## Simulation results
+Step response MIMO system
+ ![Step response](images/step_compared_mimo.png)
 Before corrections:
 * 2D representation via Zernike modes:
   ![2D Deformation](images/def2d.png)
