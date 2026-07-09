@@ -1,4 +1,4 @@
-# Adaptive Optics Simulator: Wavefront Control & Correction
+# Adaptive Optics Simulator: Wavefront Control & Correction 
 
 This project uses dynamic mathematical modeling and the Python `control` library to simulate optical wavefront aberrations and actively correct them through a discrete MIMO (Multiple-Input Multiple-Output) feedback system. By extracting Zernike polynomials and simulating wind-driven atmospheric turbulence, the model analyzes optical degradation and generates a realistic active correction response.
 
