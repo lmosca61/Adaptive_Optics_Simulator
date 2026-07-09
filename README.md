@@ -4,7 +4,7 @@ This project uses dynamic mathematical modeling and the Python `control` library
 
 ## Project Overview 
 
-This project goes beyond static optical modeling by calculating advanced dynamic metrics like **atmospheric turbulence decay** and **dynamic residual errors** over a 1000-step time series. It combines these with a Singular Value Decomposition (SVD) matrix to tune a discrete-time control loop, predicting the final stabilized wavefront. Since the system simulates a continuous feedback loop, it constantly minimizes the wavefront error to maximize the optical Strehl Ratio.
+This project goes beyond static optical modeling by calculating advanced dynamic metrics like **atmospheric turbulence decay** and **dynamic residual errors** over a 1000-step time series. It combines these with a Singular Value Decomposition (SVD) matrix to tune a discrete-time control loop, predicting the final stabilized wavefront. Since the system simulates a continuous feedback loop, it constantly minimizes the wavefront error to improve the optical Strehl Ratio.
 
 The core of the project is a **Discrete MIMO Feedback Controller**, designed with custom transfer functions to handle the 14 fundamental Zernike modes simultaneously.
 
