@@ -55,8 +55,6 @@ The script outputs console metrics and a series of dynamic plots demonstrating t
 Throughout the execution, multiple plots are shown regarding the 3D Wavefront Surfaces, the Step Response of the control channels, and Logarithmic Maps of the Point Spread Function.
 
 ## Simulation results
-### Step response
- ![Step response](images/step_compared_mimo.png)
 
 The following images demonstrate the system's ability to correct severe wavefront aberrations. The comparisons show the initial wind-driven turbulence (left) and the restored optical quality after the MIMO control loop stabilizes (right).
 
@@ -83,3 +81,7 @@ The following images demonstrate the system's ability to correct severe wavefron
   <br>
   <em>Left: Aberrated PSF (Energy Scattered) — Right: Restored Diffraction-Limited PSF</em>
 </p>
+
+
+### Step response
+ ![Step response](images/step_compared_mimo.png)
