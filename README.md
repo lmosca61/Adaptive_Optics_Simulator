@@ -85,8 +85,8 @@ After the control loop stabilizes the wavefront, the system generates the correc
 
 1. Clone the repository and install dependencies:
    ```bash
-   git clone [https://github.com/lmosca61/Adaptive_Optics_Simulator.git](https://github.com/your-username/adaptive-optics-simulator.git)
-   cd adaptive-optics-simulator
+   git clone [https://github.com/lmosca61/Adaptive_Optics_Simulator.git](https://github.com/lmosca61/Adaptive_Optics_Simulator.git)
+   cd Adaptive_Optics_Simulator
    pip install numpy matplotlib control 
 
 2. Run the main simulation to generate the plots automatically:
